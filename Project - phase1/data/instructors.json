@@ -1,0 +1,163 @@
+[
+  {
+    "username": "instructor1",
+    "password": "pass123",
+    "name": "John Doe",
+    "college": "College of Engineering",
+    "department": "Computer Engineering",
+    "interests": []
+  },
+  {
+    "username": "instructor2",
+    "password": "abc123",
+    "name": "Sarah Ahmed",
+    "college": "College of Arts",
+    "department": "Department of Languages",
+    "interests": []
+  },
+  {
+    "username": "instructor3",
+    "password": "eng789",
+    "name": "Ali Mansoor",
+    "college": "College of Engineering",
+    "department": "Electrical Engineering",
+    "interests": []
+  },
+  {
+    "username": "instructor4",
+    "password": "art555",
+    "name": "Layla Hassan",
+    "college": "College of Arts",
+    "department": "Department of Fine Arts",
+    "interests": []
+  },
+  {
+    "username": "instructor5",
+    "password": "bus111",
+    "name": "Mohammed Said",
+    "college": "College of Business",
+    "department": "Department of Business",
+    "interests": []
+  },
+  {
+    "username": "instructor6",
+    "password": "med222",
+    "name": "Aisha Salim",
+    "college": "College of Medicine",
+    "department": "Department of Medical Sciences",
+    "interests": []
+  },
+  {
+    "username": "instructor7",
+    "password": "pass777",
+    "name": "Omar Yousuf",
+    "college": "College of Engineering",
+    "department": "Mechanical Engineering",
+    "interests": []
+  },
+  {
+    "username": "instructor8",
+    "password": "abc789",
+    "name": "Noura Al Amri",
+    "college": "College of Arts",
+    "department": "Department of Languages",
+    "interests": []
+  },
+  {
+    "username": "instructor9",
+    "password": "bus456",
+    "name": "Salem Hilal",
+    "college": "College of Business",
+    "department": "Department of Business",
+    "interests": []
+  },
+  {
+    "username": "instructor10",
+    "password": "med333",
+    "name": "Fatma Khalid",
+    "college": "College of Medicine",
+    "department": "Department of Medical Sciences",
+    "interests": []
+  },
+  {
+    "username": "instructor11",
+    "password": "eng111",
+    "name": "Hassan Al Lawati",
+    "college": "College of Engineering",
+    "department": "Electrical Engineering",
+    "interests": []
+  },
+  {
+    "username": "instructor12",
+    "password": "art333",
+    "name": "Rania Said",
+    "college": "College of Arts",
+    "department": "Department of Fine Arts",
+    "interests": []
+  },
+  {
+    "username": "instructor13",
+    "password": "med111",
+    "name": "Maha Al Habsi",
+    "college": "College of Medicine",
+    "department": "Department of Medical Sciences",
+    "interests": []
+  },
+  {
+    "username": "instructor14",
+    "password": "bus222",
+    "name": "Talal Bahwan",
+    "college": "College of Business",
+    "department": "Department of Business",
+    "interests": []
+  },
+  {
+    "username": "instructor15",
+    "password": "pass888",
+    "name": "Amna Fadhil",
+    "college": "College of Engineering",
+    "department": "Computer Engineering",
+    "interests": []
+  },
+  {
+    "username": "instructor16",
+    "password": "art222",
+    "name": "Badria Said",
+    "college": "College of Arts",
+    "department": "Department of Languages",
+    "interests": []
+  },
+  {
+    "username": "instructor17",
+    "password": "med444",
+    "name": "Ahmed Salim",
+    "college": "College of Medicine",
+    "department": "Department of Medical Sciences",
+    "interests": []
+  },
+  {
+    "username": "instructor18",
+    "password": "bus333",
+    "name": "Saif Al Rahbi",
+    "college": "College of Business",
+    "department": "Department of Business",
+    "interests": []
+  },
+  {
+    "username": "instructor19",
+    "password": "pass999",
+    "name": "Yasmin Al Balushi",
+    "college": "College of Engineering",
+    "department": "Mechanical Engineering",
+    "interests": []
+  },
+  {
+    "username": "instructor20",
+    "password": "art444",
+    "name": "Huda Al Rawahi",
+    "college": "College of Arts",
+    "department": "Department of Fine Arts",
+    "interests": []
+  }
+]
+

@@ -1,0 +1,15 @@
+[
+    {
+      "username": "admin1",
+      "password": "admin123",
+      "name": "Dean Mike",
+      "college": "College of Engineering"
+    },
+    {
+      "username": "admin2",
+      "password": "admin456",
+      "name": "Dr. Layla",
+      "college": "College of Arts"
+    }
+  ]
+  

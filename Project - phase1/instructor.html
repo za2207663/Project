@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Instructor Interest</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+      background: url('back.jpeg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: maroon;
+      color: white;
+    }
+
+    button {
+      padding: 8px 16px;
+      background-color: maroon;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: darkred;
+    }
+
+    .course-name {
+      cursor: pointer;
+      border-bottom: 1px dotted gray;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="overlay">
+    <h2>Available Courses</h2>
+
+    <!-- Filter and Search if you have -->
+    <input type="text" id="searchInput" placeholder="Search Courses..." oninput="filterCourses()" style="padding: 10px; margin-bottom: 20px;">
+    <select id="categoryFilter" onchange="filterCourses()" style="padding: 10px; margin-bottom: 20px;">
+      <option value="">All Categories</option>
+    </select>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Course Name</th>
+          <th>Course ID</th>
+          <th>Department</th>
+          <th>Category</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="course-list">
+        <!-- Dynamic from JS -->
+      </tbody>
+    </table>
+  </div>
+  <div style="text-align: center; margin-top: 20px;">
+    <a href="index.html" style="text-decoration: none; color: white; font-weight: bold;">
+      ← Back to Login Page
+    </a>
+  </div>
+  
+  <script src="script/interest.js"></script>
+</body>
+</html>
+
+

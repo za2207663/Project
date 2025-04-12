@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Course Assignment System</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body, html {
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+  
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+  
+    .left-side {
+      flex: 1;
+      background: url('./data/logo.jpg') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding: 3rem;
+      font-weight: bold;
+
+      color: maroon;
+      background-color: rgba(0,0,0,0.4); /* slight dark overlay for better readability */
+    }
+  
+    .left-side h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      font-weight: bold;
+      color: maroon;
+    }
+  
+    .left-side p {
+      font-size: 1.2rem;
+      max-width: 400px;
+      line-height: 1.7;
+    }
+  
+    .right-side {
+      flex: 1;
+      background: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 3rem;
+    }
+  
+    .login-container {
+      width: 100%;
+      max-width: 350px;
+      background: #fafafa;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  
+    .login-container h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: maroon;
+      font-size: 2rem;
+    }
+  
+    input, select {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.5rem 0 1rem 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+  
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      background-color: maroon;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+  
+    button:hover {
+      background-color: #8b0000;
+    }
+  
+    .error {
+      color: red;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+    }
+  </style>
+  
+</head>
+
+<body>
+
+  <div class="container">
+    
+    <div class="left-side">
+     
+      <h2>Course System</h2>
+      <p>Easy and secure way to manage courses and assign instructors. Organized by colleges and departments.</p>
+    </div>
+
+    <div class="right-side">
+      <div class="login-container">
+        <h1>Login</h1>
+        <div id="error" class="error"></div>
+        <form onsubmit="login(event)">
+          <label>Username:</label>
+          <input type="text" id="username" required>
+
+          <label>Password:</label>
+          <input type="password" id="password" required>
+
+          <label>Role:</label>
+          <select id="role" required>
+            <option value="">--Select--</option>
+            <option value="instructor">Instructor</option>
+            <option value="admin">Admin</option>
+          </select>
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function login(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+      const role = document.getElementById('role').value;
+      const errorDiv = document.getElementById('error');
+
+      if (!username || !password || !role) {
+        errorDiv.textContent = "Please fill out all fields.";
+        return;
+      }
+
+      try {
+        const endpoint = role === 'admin' ? './data/admins.json' : './data/instructors.json';
+        const res = await fetch(endpoint);
+        const users = await res.json();
+
+        const match = users.find(user => user.username === username && user.password === password);
+
+        if (!match) {
+          alert("Invalid credentials.");
+          return;
+        }
+
+        localStorage.setItem("username", match.username);
+        localStorage.setItem("name", match.name);
+        localStorage.setItem("role", role);
+
+        window.location.href = role === "instructor" ? "instructor.html" : "admin.html";
+
+      } catch (err) {
+        console.error("Login error:", err);
+        errorDiv.textContent = "Error logging in. Please try again.";
+      }
+    }
+  </script>
+
+</body>
+
+</html>

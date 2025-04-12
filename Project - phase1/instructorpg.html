@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Instructors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      padding: 20px;
+      text-align: center;
+      background: url('back.jpeg') no-repeat center center fixed;
+      background-size: cover;
+    }
+
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.8);
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 80%;
+      margin: 0 auto;
+      border-collapse: collapse;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #70193D;
+      color: white;
+    }
+
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+  </style>
+</head>
+<body>
+<div class="overlay">
+
+  <h2>Select Instructors for this Course</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Instructor Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th>Select</th>
+      </tr>
+    </thead>
+    <tbody id="instructor-list">
+    </tbody>
+  </table>
+
+  <button onclick="storeAssignments()">Save Selection</button>
+
+  <script src="script/instructors.js"></script>
+
+</div>
+</body>
+</html>
+
+
