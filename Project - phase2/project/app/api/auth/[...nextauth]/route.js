@@ -37,18 +37,22 @@ export const authOptions = {
     strategy: "jwt",
   },
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.role = token.role;
-      }
-      return session;
-    },
+   async jwt({ token, user, account }) {
+  if (user) {
+    token.role = user.role || "google";
+    token.email = user.email;
+  }
+  return token;
+}
+,
+   async session({ session, token }) {
+  if (token) {
+    session.user.role = token.role;
+    session.user.email = token.email; // make sure it's passed to the session
+  }
+  return session;
+}
+,
   },
 };
 

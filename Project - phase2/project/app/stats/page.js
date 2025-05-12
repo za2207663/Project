@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 import StatCard from "../components/StatsCard";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -168,6 +169,13 @@ export default function StatsPage() {
           </div>
         </div>
       </div>
+              <button
+        onClick={() => signOut({ callbackUrl: "/login" })}
+        className="ml-4 bg-red-600 px-3 py-1 rounded text-white hover:bg-red-700 text-sm"
+      >
+        Sign Out
+      </button>
     </div>
+    
   );
 }

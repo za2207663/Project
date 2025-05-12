@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
+import { signOut } from "next-auth/react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -64,9 +65,15 @@ export default function LoginPage() {
         </div>
 
         <form
-          action={handleSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            handleSubmit(formData);
+          }}
           className="space-y-6"
         >
+
+        
           <div className="space-y-4">
             {error && <p className="text-red-500 text-center">{error}</p>}
 
@@ -110,6 +117,12 @@ export default function LoginPage() {
             Sign in
           </button>
         </form>
+            <button
+        onClick={() => signOut({ callbackUrl: "/login" })}
+        className="ml-4 bg-red-600 px-3 py-1 rounded text-white hover:bg-red-700 text-sm"
+      >
+        Sign Out
+      </button>
       </div>
     </div>
   );
