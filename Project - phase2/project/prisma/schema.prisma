@@ -1,0 +1,110 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+    url      = "file:./dev.repo"
+}
+
+enum Role {
+    admin
+    instructor
+}
+
+enum CourseStatus {
+    open
+    closed
+}
+
+model College {
+    id          Int          @id @default(autoincrement())
+    name        String       @unique
+    departments Department[]
+    courses     Course[]
+    users       User[]
+}
+
+model Department {
+    id        Int       @id @default(autoincrement())
+    name      String
+    college   College   @relation(fields: [collegeId], references: [id])
+    collegeId Int
+    courses   Course[]
+    users     User[]
+    students  Student[]
+}
+
+model Course {
+    id           String       @id
+    name         String
+    category     String
+    status       CourseStatus @default(open)
+    description  String?
+    department   Department   @relation(fields: [departmentId], references: [id])
+    departmentId Int
+    college      College      @relation(fields: [collegeId], references: [id])
+    collegeId    Int
+    enrollments  Enrollment[]
+    interests    Interest[]
+
+    Assignment Assignment[]
+}
+
+model User {
+  id            Int       @id @default(autoincrement())
+  username      String?   @unique
+  password      String?
+  name          String?
+  email         String?   @unique
+  role          Role      @default(instructor)
+  college       College?  @relation(fields: [collegeId], references: [id])
+  collegeId     Int?
+  department    Department? @relation(fields: [departmentId], references: [id])
+  departmentId  Int?
+  interests     Interest[]
+  assignments   Assignment[]
+  emailVerified DateTime?
+  image         String?
+}
+
+model Student {
+  id           Int          @id @default(autoincrement())
+  name         String
+  email        String       @unique
+  year         String
+  department   Department   @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  enrollments  Enrollment[]
+  createdAt    DateTime     @default(now()) 
+}
+
+model Enrollment {
+    id        Int     @id @default(autoincrement())
+    grade     Float?
+    student   Student @relation(fields: [studentId], references: [id])
+    studentId Int
+    course    Course  @relation(fields: [courseId], references: [id])
+    courseId  String
+}
+
+model Interest {
+    course    Course   @relation(fields: [courseId], references: [id])
+    courseId  String
+    user      User     @relation(fields: [userId], references: [id])
+    userId    Int
+    createdAt DateTime @default(now())
+
+    @@id([courseId, userId])
+}
+
+model Assignment {
+    id         Int      @id @default(autoincrement())
+    course     Course   @relation(fields: [courseId], references: [id])
+    courseId   String
+    user       User     @relation(fields: [userId], references: [id])
+    userId     Int
+    assignedAt DateTime @default(now())
+
+    @@unique([courseId, userId])
+}
