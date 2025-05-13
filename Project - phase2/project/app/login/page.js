@@ -10,6 +10,7 @@ export default function LoginPage() {
 
   const handleGoogleLogin = async () => {
     const result = await signIn("google", { callbackUrl: "/stats" });
+
     if (result?.error) {
       setError(result.error);
     }

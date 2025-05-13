@@ -264,6 +264,7 @@ const instructors = [
     department: "Department of Fine Arts",
     interests: [],
   },
+
   {
     username: "instructor5",
     password: "bus111",
@@ -293,9 +294,11 @@ const instructors = [
 async function main() {
 
   await prisma.$transaction([
-    prisma.interest.deleteMany(),
-    prisma.course.deleteMany(),
+    prisma.enrollment.deleteMany(), // 🧑‍🎓 depends on course
+    prisma.interest.deleteMany(),   // ✅ depends on course
+    prisma.course.deleteMany(),     // ✅ now safe
     prisma.user.deleteMany(),
+    prisma.student.deleteMany(),    // student might be optional if not yet added
     prisma.department.deleteMany(),
     prisma.college.deleteMany(),
   ]);
@@ -320,19 +323,19 @@ async function main() {
     )
     .map((c) => ({
       name: c.department,
-      college: { connect: { name: c.college } },
+      college: c.college,
     }));
-const createdDepartments = [];
+  const createdDepartments = [];
 
-for (const dept of departmentData) {
-  const newDept = await prisma.department.create({
-    data: {
-      name: dept.name,
-      college: { connect: { name: dept.college.connect.name } },
-    },
-  });
-  createdDepartments.push(newDept); 
-}
+  for (const dept of departmentData) {
+    const newDept = await prisma.department.create({
+      data: {
+        name: dept.name,
+        college: { connect: { name: dept.college } },
+      },
+    });
+    createdDepartments.push(newDept);
+  }
 
 
   // Create Courses
@@ -399,22 +402,39 @@ for (const dept of departmentData) {
 
   const years = ["1st Year", "2nd Year", "3rd Year", "4th Year"];
 
-// Create 500 students
+  // Create 500 students
 
-for (let i = 0; i < 500; i++) {
-  const dept = createdDepartments[Math.floor(Math.random() * createdDepartments.length)];
+  for (let i = 0; i < 500; i++) {
+    const dept = createdDepartments[Math.floor(Math.random() * createdDepartments.length)];
 
-  await prisma.student.create({
+    await prisma.student.create({
+      data: {
+        name: faker.person.fullName(),
+        email: faker.internet.email({ provider: "student.edu" }),
+        year: years[Math.floor(Math.random() * years.length)],
+        departmentId: dept.id,
+      },
+    });
+  }
+// Create enrollments (e.g., 1000 random enrollments)
+const allStudents = await prisma.student.findMany();
+const allCourses = await prisma.course.findMany();
+
+for (let i = 0; i < 1000; i++) {
+  const student = allStudents[Math.floor(Math.random() * allStudents.length)];
+  const course = allCourses[Math.floor(Math.random() * allCourses.length)];
+
+  await prisma.enrollment.create({
     data: {
-      name: faker.person.fullName(),
-      email: faker.internet.email({ provider: "student.edu" }),
-      year: years[Math.floor(Math.random() * years.length)],
-      departmentId: dept.id,
+      studentId: student.id,
+      courseId: course.id,
+      grade: Math.floor(Math.random() * 61) + 40, // random grade between 40–100
     },
   });
 }
 
 }
+
 //Create Students
 main()
   .catch((e) => {

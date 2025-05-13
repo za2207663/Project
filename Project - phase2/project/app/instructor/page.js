@@ -112,15 +112,26 @@ export default function InstructorPage() {
   };
 
   if (!currentUser) {
-    return (
-      <div className="p-6 text-center">
-        <p className="text-red-600">Please login first</p>
-        <Link href="/login" className="text-blue-600 underline mt-4 block">
-          Go to Login
-        </Link>
-      </div>
-    );
-  }
+  return (
+    <div className="p-6 text-center">
+      <p className="text-red-600">Please login first</p>
+      <Link href="/login" className="text-blue-600 underline mt-4 block">
+        Go to Login
+      </Link>
+    </div>
+  );
+}
+
+if (currentUser.role !== "instructor") {
+  return (
+    <div className="p-6 text-center">
+      <p className="text-red-600">Access denied: Only instructors can view this page.</p>
+      <Link href="/login" className="text-blue-600 underline mt-4 block">
+        Go to Login
+      </Link>
+    </div>
+  );
+}
 
   return (
     <div className="p-6 max-w-6xl mx-auto">

@@ -28,11 +28,11 @@ export async function GET() {
     });
 
     const avgGradesPerDept = departmentsWithGrades.map(dept => {
-      const grades = dept.courses.flatMap(c => 
+      const grades = dept.courses.flatMap(c =>
         c.enrollments.map(e => e.grade)
       );
-      const average = grades.length > 0 
-        ? grades.reduce((a, b) => a + b, 0) / grades.length 
+      const average = grades.length > 0
+        ? grades.reduce((a, b) => a + b, 0) / grades.length
         : 0;
       return {
         department: dept.name,
@@ -72,48 +72,64 @@ export async function GET() {
     });
 
     // 7. Course Completion Rates
-    const completionRates = await prisma.enrollment.groupBy({
-        by: ['courseId'],
-        _count: { id: true },
-        _avg: { grade: true },
-        having: {
-          grade: {
-            _avg: {
-              gte: 50 // Considering 50% as passing grade
-            }
-          }
-        }
-      });
+   // Get raw data
+const allCompletionRates = await prisma.enrollment.groupBy({
+  by: ['courseId'],
+  _count: { id: true },
+  _avg: { grade: true }
+});
+
+// Filter courses with passing grade
+const completionRates = allCompletionRates.filter(
+  course => course._avg.grade !== null && course._avg.grade >= 50
+);
+
+// NOW you can compute this:
+const totalEnrollments = completionRates.reduce(
+  (sum, course) => sum + course._count.id,
+  0
+);
+
+// Then transform
+const completionRateStats = completionRates.map(course => ({
+  courseId: course.courseId,
+  avgGrade: course._avg.grade ? course._avg.grade.toFixed(1) : "N/A",
+  completionRate:
+    totalEnrollments > 0
+      ? ((course._count.id / totalEnrollments) * 100).toFixed(1)
+      : "0.0"
+}));
+
 
     // 8. Department course counts
     const deptCourseCounts = await prisma.department.findMany({
-        select: {
+      select: {
         name: true,
         _count: {
-            select: {
+          select: {
             courses: true
-            }
+          }
         }
-        },
-        orderBy: {
+      },
+      orderBy: {
         courses: {
-            _count: 'desc'
+          _count: 'desc'
         }
-        }
+      }
     });
 
-const newStudentsByYear = await prisma.student.groupBy({
-    by: ['year'],
-    _count: { id: true },
-    where: {
-      createdAt: {
-        gte: new Date(new Date().setFullYear(new Date().getFullYear() - 3))
+    const newStudentsByYear = await prisma.student.groupBy({
+      by: ['year'],
+      _count: { id: true },
+      where: {
+        createdAt: {
+          gte: new Date(new Date().setFullYear(new Date().getFullYear() - 3))
+        }
+      },
+      orderBy: {
+        year: 'asc'
       }
-    },
-    orderBy: {
-      year: 'asc'
-    }
-  });
+    });
     // Transform data for response
     const responseData = {
       mostPopularCourses: mostPopularCourses.map(course => ({
@@ -138,20 +154,19 @@ const newStudentsByYear = await prisma.student.groupBy({
         courseId: trend.courseId,
         count: trend._count.id
       })),
-      completionRates: completionRates.map(course => ({
-        courseId: course.courseId,
-        completionRate: ((course._count.id / totalEnrollments) * 100).toFixed(1)
-      })),
+      completionRates: completionRateStats,
+      
       deptCourseCounts: deptCourseCounts.map(dept => ({
         name: dept.name,
         count: dept._count.courses
       })),
-     
+
       newStudentsByYear: newStudentsByYear.map(year => ({
         year: year.year,
         count: year._count.id
       })),
     };
+
 
     return NextResponse.json(responseData);
   } catch (error) {
